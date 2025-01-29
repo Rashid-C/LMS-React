@@ -6,13 +6,24 @@ export const AppContext = createContext();
 
 export const AppContextProvider = (props) => {
   const currency = import.meta.env.VITE_CURRENCY;
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   const [allCourses, setAllCourses] = useState([]);
 
   //Fetch all courses
   const fetchAllCourses = async () => {
     setAllCourses(dummyCourses);
+  };
+  //Function to calculate avg rating of course
+  const calculateRating = (course) => {
+    if (course.courseRatings.length === 0) {
+      return 0;
+    }
+    let totalRation = 0;
+    course.courseRatings.forEach((rating) => {
+      totalRation += rating.rating;
+    });
+    return totalRation / course.courseRatings.length;
   };
 
   useEffect(() => {
@@ -22,7 +33,8 @@ export const AppContextProvider = (props) => {
   const value = {
     currency,
     allCourses,
-    navigate
+    navigate,
+    calculateRating,
   };
   return (
     <AppContext.Provider value={value}>{props.children}</AppContext.Provider>
