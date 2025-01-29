@@ -1,3 +1,4 @@
+import CallToAction from "../../components/student/CallToAction";
 import Companies from "../../components/student/Companies";
 import CourseSection from "../../components/student/CourseSection";
 import Hero from "../../components/student/Hero";
@@ -10,6 +11,7 @@ const Home = () => {
       <Companies />
       <CourseSection />
       <TestimonialSection />
+      <CallToAction />
     </div>
   );
 };
