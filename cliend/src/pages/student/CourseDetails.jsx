@@ -34,7 +34,7 @@ const CourseDetails = () => {
 
   useEffect(() => {
     fetchCourseData();
-  }, [fetchCourseData]);
+  }, [allCourses]);
 
   const toggleSection = useCallback((index) => {
     setOpenSection((prev) => ({ ...prev, [index]: !prev[index] }));
