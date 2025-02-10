@@ -5,12 +5,14 @@ import Loading from "../../components/student/Loading";
 import { assets } from "../../assets/assets";
 import humanizeDuration from "humanize-duration";
 import Footer from "../../components/student/Footer";
+import YouTube from "react-youtube";
 
 const CourseDetails = () => {
   const { id } = useParams();
   const [courseData, setCourseData] = useState(null);
   const [openSection, setOpenSection] = useState({});
   const [isAlreadyEnrolled, setIsAlreadyEnrolled] = useState(false);
+  const [playerData, setPlayerData] = useState(null);
 
   const {
     allCourses,
@@ -139,7 +141,16 @@ const CourseDetails = () => {
                             <p>{lecture.lectureTitle}</p>
                             <div className="flex gap-2">
                               {lecture.isPreviewFree && (
-                                <p className="text-blue-500 cursor-pointer">
+                                <p
+                                  onClick={() =>
+                                    setPlayerData({
+                                      videoId: lecture.lectureUrl
+                                        .split("/")
+                                        .pop(),
+                                    })
+                                  }
+                                  className="text-blue-500 cursor-pointer"
+                                >
                                   Preview
                                 </p>
                               )}
@@ -176,14 +187,27 @@ const CourseDetails = () => {
 
         {/* Right Column */}
         <div className="max-w-course-card z-10 shadow-custom-card rounded-t md:rounded-none overflow-hidden bg-white min-w-[300px] sm:min-w-[420px]">
-          <img src={courseData.courseThumbnail} alt="courseThumbnail" />
+          {playerData ? (
+            <YouTube
+              videoId={playerData.videoId}
+              opts={{
+                playerVars: {
+                  autoplay: 1,
+                },
+              }}
+              iframeClassName="w-full aspect-video"
+            />
+          ) : (
+            <img src={courseData.courseThumbnail} alt="courseThumbnail" />
+          )}
           <div className="p-5">
             <div className="flex items-center gap-2">
               <img
                 className="w-3.5"
-                src={assets.time_clock_icon}
+                src={assets.time_left_clock_icon}
                 alt="time_clock_icon"
               />
+
               <p className="text-red-500">
                 <span className="font-medium">5 days</span> left at this price!
               </p>
